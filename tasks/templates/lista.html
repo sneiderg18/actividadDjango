@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de Tarea</title>
+    <style>
+      body {
+        margin: 0;
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+      }
+
+      .formulario-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 500px;
+        margin: 50px auto;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333333;
+      }
+
+      form {
+        margin-bottom: 15px;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .btn-actualizar,
+      .btn-completar,
+      .btn-eliminar {
+        flex: 1;
+        padding: 10px 20px;
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 16px;
+      }
+
+      .btn-actualizar:hover {
+        background-color: #007bff;
+      }
+
+      .btn-completar {
+        background-color: #28a745;
+      }
+
+      .btn-completar:hover {
+        background-color: #1e7e34;
+      }
+
+      .btn-eliminar {
+        background-color: #dc3545;
+      }
+
+      .btn-eliminar:hover {
+        background-color: #bd2130;
+      }
+    </style>
+  </head>
+  <body>
+    {% extends 'base.html' %} {% block content %}
+
+    <div class="formulario-container">
+      <h1>{{ task.titulo }}</h1>
+
+      {{ error }}
+
+      <form method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        <label for="fecha_evento">Fecha del evento:</label>
+        <input type="date" id="fecha_evento" name="fecha_evento" required />
+        <label for="hora_evento">Hora del evento:</label>
+        <input type="time" id="hora_evento" name="hora_evento" required />
+        <div class="button-group">
+          <button class="btn-actualizar">Actualizar</button>
+          <button form="form-completar" class="btn-completar">Completar</button>
+          <button form="form-eliminar" class="btn-eliminar">Eliminar</button>
+        </div>
+      </form>
+
+      <form
+        id="form-completar"
+        action="{% url 'completar' task.id %}"
+        method="post"
+      >
+        {% csrf_token %}
+      </form>
+
+      <form
+        id="form-eliminar"
+        action="{% url 'eliminar_tarea' task.id %}"
+        method="post"
+      >
+        {% csrf_token %}
+      </form>
+    </div>
+
+    {% endblock %}
+  </body>
+</html>

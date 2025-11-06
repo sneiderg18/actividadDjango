@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+      }
+
+      .form-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+      }
+
+      .form-container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .form label,
+      .form select,
+      .form input {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .form__button {
+        padding: 10px;
+        background-color: #1e3a5f;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.5s;
+        font-size: 16px;
+        width: 100%;
+      }
+
+      .form__button:hover {
+        background-color: #007bff; /* azul marino claro */
+      }
+    </style>
+  </head>
+  <body>
+    {% extends 'base.html' %} {% block content %}
+    <div class="form-wrapper">
+      <div class="form-container">
+        <h1>Crear Evento</h1>
+
+        {{ error }}
+
+        <form class="form" action="/tasks/create/" method="post">
+          {% csrf_token %} {{ form }}
+
+          <label for="opcion">Elige una opción:</label>
+          <select id="opcion" name="opcion" required>
+            <option value="">--Selecciona--</option>
+            <option value="reunion">Reunión</option>
+            <option value="cita">Cita médica</option>
+            <option value="cumpleaños">Cumpleaños</option>
+            <option value="otro">Otro evento</option>
+          </select>
+
+          <label for="fecha_evento">Fecha del evento:</label>
+          <input type="date" id="fecha_evento" name="fecha_evento" required />
+          <label for="hora_evento">Hora del evento:</label>
+          <input type="time" id="hora_evento" name="hora_evento" required />
+
+          <button class="form__button" type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+    {% endblock %}
+  </body>
+</html>

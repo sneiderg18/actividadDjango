@@ -1,0 +1,47 @@
+{% extends 'base.html' %} {% block content %}
+<main class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="text-center">Eventos</h1>
+
+      <!-- AGREGAR ESTO: Filtro por categoría -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <form method="GET">
+            <div class="row">
+              <div class="col-md-8">
+                <select name="opcion" class="form-select" onchange="this.form.submit()">
+                  <option value="">Todas las categorías</option>
+                  {% for opcion in opciones_disponibles %}
+                    <option value="{{ opcion }}" {% if opcion == opcion_seleccionada %}selected{% endif %}>
+                      {{ opcion }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-4">
+                <a href="{% url 'tasks' %}" class="btn btn-outline-secondary">RESET</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- FIN DEL FILTRO -->
+
+      <ul class="list-group shadow-lg bg-white">
+        {% for task in tasks %}
+        <a class="list-group-item" href="{% url 'lista' task.id %}">
+          {% if task.importante %}
+          <strong>{{ task.titulo }}</strong>
+          {% else %} {{ task.titulo }} {% endif %}
+          <p>{{ task.descripcion }}</p>
+          <p>Fecha del evento: {{ task.fecha_evento|date:"d/m/Y" }}</p>
+          <p>Hora del evento: {{ task.hora_evento|time:"H:i" }}</p>
+          <p>Completado el: {{ task.diaCompletado|date:"d/m/Y H:i" }}</p>
+        </a>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</main>
+{% endblock %}
